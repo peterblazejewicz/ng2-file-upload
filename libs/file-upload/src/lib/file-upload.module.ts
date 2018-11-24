@@ -5,6 +5,7 @@ import { FileSelectDirective } from './file-select.directive';
 
 @NgModule({
   imports: [CommonModule],
-  declarations: [FileDropDirective, FileSelectDirective]
+  declarations: [FileDropDirective, FileSelectDirective],
+  exports: [FileDropDirective, FileSelectDirective]
 })
 export class FileUploadModule {}
