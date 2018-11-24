@@ -16,6 +16,9 @@
     },
     "file-upload-demo-e2e": {
       "tags": []
+    },
+    "file-upload-demo-server": {
+      "tags": []
     }
   }
 }
