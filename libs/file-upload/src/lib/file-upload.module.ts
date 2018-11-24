@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FileDropDirective } from './file-drop.directive';
+import { FileSelectDirective } from './file-select.directive';
 
 @NgModule({
-  imports: [CommonModule]
+  imports: [CommonModule],
+  declarations: [FileDropDirective, FileSelectDirective]
 })
 export class FileUploadModule {}
