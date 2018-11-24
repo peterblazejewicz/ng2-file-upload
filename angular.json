@@ -56,11 +56,10 @@
             ],
             "styles": [
               "./node_modules/code-prettify/loader/prettify.css",
-              "./node_modules/code-prettify/loader/skins/sons-of-obsidian.css",
               "apps/file-upload-demo/src/styles.scss"
             ],
             "scripts": [
-              "./node_modules/code-prettify/loader/run_prettify.js"
+              "./node_modules/code-prettify/loader/prettify.js"
             ]
           },
           "configurations": {
