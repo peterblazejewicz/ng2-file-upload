@@ -55,9 +55,13 @@
               "apps/file-upload-demo/src/assets"
             ],
             "styles": [
+              "./node_modules/code-prettify/loader/prettify.css",
+              "./node_modules/code-prettify/loader/skins/sons-of-obsidian.css",
               "apps/file-upload-demo/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/code-prettify/loader/run_prettify.js"
+            ]
           },
           "configurations": {
             "production": {
