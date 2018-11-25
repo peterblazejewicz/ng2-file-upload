@@ -55,7 +55,9 @@
               "apps/file-upload-demo/src/assets"
             ],
             "styles": [
+              "./node_modules/bootstrap/dist/css/bootstrap.css",
               "./node_modules/code-prettify/loader/prettify.css",
+              "apps/file-upload-demo/src/bs-docs.min.css",
               "apps/file-upload-demo/src/styles.scss"
             ],
             "scripts": [
