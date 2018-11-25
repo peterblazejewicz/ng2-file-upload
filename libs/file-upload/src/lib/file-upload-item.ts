@@ -1,12 +1,12 @@
-import { FileLikeObject } from './file-like-object';
+import { FileWrapper } from './file-wrapper';
 import {
   FileUploader,
   ParsedResponseHeaders,
   FileUploaderOptions
 } from './file-uploader';
 
-export class FileItem {
-  public file: FileLikeObject;
+export class FileUploadItem {
+  public file: FileWrapper;
   public _file: File;
   public alias: string;
   public url = '/';
@@ -37,7 +37,7 @@ export class FileItem {
     this.uploader = uploader;
     this.some = some;
     this.options = options;
-    this.file = new FileLikeObject(some);
+    this.file = new FileWrapper(some);
     this._file = some;
     if (uploader.options) {
       this.method = uploader.options.method || 'POST';

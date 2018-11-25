@@ -1,4 +1,4 @@
-import { FileLikeObject } from './file-like-object';
+import { FileWrapper } from './file-wrapper';
 
 export class FileType {
   /*  MS office  */
@@ -60,7 +60,7 @@ export class FileType {
     'application/x-bzip2'
   ];
 
-  public static getMimeClass(file: FileLikeObject): string {
+  public static getMimeClass(file: FileWrapper): string {
     let mimeClass = 'application';
     if (this.mime_psd.indexOf(file.type) !== -1) {
       mimeClass = 'image';
@@ -89,7 +89,7 @@ export class FileType {
   }
 
   public static fileTypeDetection(inputFilename: string): string {
-    let types: { [key: string]: string } = {
+    const types: { [key: string]: string } = {
       jpg: 'image',
       jpeg: 'image',
       tif: 'image',
@@ -150,11 +150,11 @@ export class FileType {
       odp: 'ppt'
     };
 
-    let chunks = inputFilename.split('.');
+    const chunks = inputFilename.split('.');
     if (chunks.length < 2) {
       return 'application';
     }
-    let extension = chunks[chunks.length - 1].toLowerCase();
+    const extension = chunks[chunks.length - 1].toLowerCase();
     if (types[extension] === undefined) {
       return 'application';
     } else {

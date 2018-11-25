@@ -2,7 +2,7 @@ function isElement(node: any): boolean {
   return !!(node && (node.nodeName || (node.prop && node.attr && node.find)));
 }
 
-export class FileLikeObject {
+export class FileWrapper {
   public lastModifiedDate: any;
   public size: any;
   public type: string;
