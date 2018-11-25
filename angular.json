@@ -164,63 +164,6 @@
           }
         }
       }
-    },
-    "file-upload-demo-server": {
-      "root": "apps/file-upload-demo-server",
-      "sourceRoot": "apps/file-upload-demo-server/src",
-      "projectType": "application",
-      "prefix": "file-upload-demo-server",
-      "schematics": {},
-      "architect": {
-        "build": {
-          "builder": "@nrwl/builders:node-build",
-          "options": {
-            "outputPath": "dist/apps/file-upload-demo-server",
-            "main": "apps/file-upload-demo-server/src/main.ts",
-            "tsConfig": "apps/file-upload-demo-server/tsconfig.app.json",
-            "assets": [
-              "apps/file-upload-demo-server/src/assets"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "fileReplacements": [
-                {
-                  "replace": "apps/file-upload-demo-server/src/environments/environment.ts",
-                  "with": "apps/file-upload-demo-server/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@nrwl/builders:node-execute",
-          "options": {
-            "buildTarget": "file-upload-demo-server:build"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/file-upload-demo-server/tsconfig.app.json",
-              "apps/file-upload-demo-server/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/builders:jest",
-          "options": {
-            "jestConfig": "apps/file-upload-demo-server/jest.config.js",
-            "tsConfig": "apps/file-upload-demo-server/tsconfig.spec.json"
-          }
-        }
-      }
     }
   },
   "cli": {

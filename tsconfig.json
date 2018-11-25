@@ -23,7 +23,6 @@
   },
   "exclude": [
     "node_modules",
-    "tmp",
-    "ng2-file-upload-legacy"
+    "tmp"
   ]
 }
