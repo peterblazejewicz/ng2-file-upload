@@ -62,7 +62,7 @@ describe('Directive: FileDropDirective', () => {
 
     // Check default options
     expect(fileDropDirective.options.autoUpload).toBeFalsy();
-    expect(fileDropDirective.options.isHTML5).toBeTruthy();
+    expect(fileDropDirective.options.isHtml5).toBeTruthy();
     expect(fileDropDirective.options.removeAfterUpload).toBeFalsy();
     expect(fileDropDirective.options.disableMultipart).toBeFalsy();
   });

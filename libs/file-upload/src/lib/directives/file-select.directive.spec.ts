@@ -63,7 +63,7 @@ describe('Directive: FileSelectDirective', () => {
 
     // Check default options
     expect(fileSelectDirective.options.autoUpload).toBeFalsy();
-    expect(fileSelectDirective.options.isHTML5).toBeTruthy();
+    expect(fileSelectDirective.options.isHtml5).toBeTruthy();
     expect(fileSelectDirective.options.removeAfterUpload).toBeFalsy();
     expect(fileSelectDirective.options.disableMultipart).toBeFalsy();
   });

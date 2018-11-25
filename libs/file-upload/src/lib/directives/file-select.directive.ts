@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 
 import { FileUploader } from '../file-uploader';
+import { IFileUploaderOptions } from '../model/file-uploader-options';
 
 @Directive({ selector: '[ng2FileSelect]' })
 export class FileSelectDirective {
@@ -19,7 +20,7 @@ export class FileSelectDirective {
 
   constructor(private element: ElementRef) {}
 
-  get options(): any {
+  get options(): IFileUploaderOptions {
     return this.uploader.options;
   }
 

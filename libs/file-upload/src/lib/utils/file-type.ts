@@ -1,4 +1,4 @@
-import { FileWrapper } from './file-wrapper';
+import { FileWrapper } from '../file-wrapper';
 
 export class FileTypeUtils {
   /*  MS office  */

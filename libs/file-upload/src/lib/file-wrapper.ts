@@ -1,32 +1,32 @@
-function isElement(node: any): boolean {
-  return !!(node && (node.nodeName || (node.prop && node.attr && node.find)));
-}
+import { IFileWrapper } from './model/file-wrapper-interface';
+import { isElement } from './utils/is-element';
 
-export class FileWrapper {
-  lastModifiedDate: any;
-  size: any;
-  type: string;
+export class FileWrapper implements IFileWrapper {
+  lastModified: number;
+  lastModifiedDate: Date;
   name: string;
-  rawFile: string;
+  size: number;
+  type: string;
+  webkitRelativePath: string;
 
   constructor(fileOrInput: any) {
-    this.rawFile = fileOrInput;
     const isInput = isElement(fileOrInput);
     const fakePathOrObject = isInput ? fileOrInput.value : fileOrInput;
-    if(typeof fakePathOrObject === 'string') {
-      this._createFromFakePath(fakePathOrObject);
+    if (typeof fakePathOrObject === 'string') {
+      this.createFromFakePath(fakePathOrObject);
     } else {
-      this._createFromObject(fakePathOrObject);
+      this.createFromObject(fakePathOrObject);
     }
   }
 
-  _createFromFakePath(path: string): void {
+  private createFromFakePath(path: string): void {
     this.lastModifiedDate = undefined;
     this.size = undefined;
     this.type = 'like/' + path.slice(path.lastIndexOf('.') + 1).toLowerCase();
     this.name = path.slice(path.lastIndexOf('/') + path.lastIndexOf('\\') + 2);
   }
-  _createFromObject(object: {
+
+  private createFromObject(object: {
     size: number;
     type: string;
     name: string;

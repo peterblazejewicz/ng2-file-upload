@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FileUploader } from '@ng2/file-upload';
+import { IFileUploadItem } from "@ng2/file-upload";
 
 // const URL = '/api/';
 const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
@@ -21,12 +22,12 @@ export class SimpleDemoComponent implements OnInit {
       url: URL,
       disableMultipart: true, // 'DisableMultipart' must be 'true' for formatDataFunction to be called.
       formatDataFunctionIsAsync: true,
-      formatDataFunction: async item => {
+      formatDataFunction: async (item: IFileUploadItem) => {
         return new Promise((resolve, reject) => {
           resolve({
-            name: item._file.name,
-            length: item._file.size,
-            contentType: item._file.type,
+            name: item.file.name,
+            length: item.file.size,
+            contentType: item.file.type,
             date: new Date()
           });
         });

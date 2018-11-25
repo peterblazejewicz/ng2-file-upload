@@ -1,41 +1,34 @@
-import { FileUploader } from './file-uploader';
-import { FileUploaderOptions } from './model/file-uploader-options';
-import { FileWrapper } from './file-wrapper';
+import { IFileUploaderOptions } from './model/file-uploader-options';
 import { ParsedResponseHeaders } from './model/parsed-response-headers';
+import { IFileWrapper } from './model/file-wrapper-interface';
+import { FileWrapper } from './file-wrapper';
+import { FileUploader } from './file-uploader';
+import { IFileUploadItem } from './model/file-upload-item-interface';
 
-export class FileUploadItem {
-  /**
-   * Expose access to original File object
-   * @readonly
-   * @type {File}
-   * @memberof FileUploadItem
-   */
-  get file(): File {
-    return this._file;
-  }
-
-  fileWrapper: FileWrapper;
+export class FileUploadItem implements IFileUploadItem {
   alias: string;
   url = '/';
   method: string;
-  headers: any = [];
+  headers = [];
   withCredentials = true;
-  formData: any = [];
-  isReady = false;
-  isUploading = false;
-  isUploaded = false;
-  isSuccess = false;
-  isCancel = false;
-  isError = false;
-  progress = 0;
-  index: number = void 0;
-  _xhr: XMLHttpRequest;
-  _form: any;
+
+  ready = false;
+  uploading = false;
+  uploaded = false;
+  success = false;
+  cancelled = false;
+  error = false;
+  private progress = 0;
+  private index = 0;
+
+  fileWrapper: IFileWrapper;
+  xhr: XMLHttpRequest;
+  form: any;
 
   constructor(
     protected uploader: FileUploader,
-    private _file: File,
-    protected options: FileUploaderOptions
+    public file: File,
+    protected options: IFileUploaderOptions
   ) {
     this.fileWrapper = new FileWrapper(this.file);
     if (uploader.options) {
@@ -107,12 +100,12 @@ export class FileUploadItem {
   }
 
   public _onBeforeUpload(): void {
-    this.isReady = true;
-    this.isUploading = true;
-    this.isUploaded = false;
-    this.isSuccess = false;
-    this.isCancel = false;
-    this.isError = false;
+    this.ready = true;
+    this.uploading = true;
+    this.uploaded = false;
+    this.success = false;
+    this.cancelled = false;
+    this.error = false;
     this.progress = 0;
     this.onBeforeUpload();
   }
@@ -131,12 +124,12 @@ export class FileUploadItem {
     status: number,
     headers: ParsedResponseHeaders
   ): void {
-    this.isReady = false;
-    this.isUploading = false;
-    this.isUploaded = true;
-    this.isSuccess = true;
-    this.isCancel = false;
-    this.isError = false;
+    this.ready = false;
+    this.uploading = false;
+    this.uploaded = true;
+    this.success = true;
+    this.cancelled = false;
+    this.error = false;
     this.progress = 100;
     this.index = void 0;
     this.onSuccess(response, status, headers);
@@ -147,12 +140,12 @@ export class FileUploadItem {
     status: number,
     headers: ParsedResponseHeaders
   ): void {
-    this.isReady = false;
-    this.isUploading = false;
-    this.isUploaded = true;
-    this.isSuccess = false;
-    this.isCancel = false;
-    this.isError = true;
+    this.ready = false;
+    this.uploading = false;
+    this.uploaded = true;
+    this.success = false;
+    this.cancelled = false;
+    this.error = true;
     this.progress = 0;
     this.index = void 0;
     this.onError(response, status, headers);
@@ -163,12 +156,12 @@ export class FileUploadItem {
     status: number,
     headers: ParsedResponseHeaders
   ): void {
-    this.isReady = false;
-    this.isUploading = false;
-    this.isUploaded = false;
-    this.isSuccess = false;
-    this.isCancel = true;
-    this.isError = false;
+    this.ready = false;
+    this.uploading = false;
+    this.uploaded = false;
+    this.success = false;
+    this.cancelled = true;
+    this.error = false;
     this.progress = 0;
     this.index = void 0;
     this.onCancel(response, status, headers);
@@ -188,6 +181,6 @@ export class FileUploadItem {
 
   public _prepareToUploading(): void {
     this.index = this.index || ++this.uploader._nextIndex;
-    this.isReady = true;
+    this.ready = true;
   }
 }

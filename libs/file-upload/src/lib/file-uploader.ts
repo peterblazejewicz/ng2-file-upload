@@ -1,11 +1,12 @@
 import { EventEmitter } from '@angular/core';
 
-import { FileTypeUtils } from './file-type';
 import { FileUploadItem } from './file-upload-item';
 import { FileWrapper } from './file-wrapper';
-import { FileUploaderOptions } from './model/file-uploader-options';
+import { IFileUploadItem } from './model/file-upload-item-interface';
+import { IFileUploaderOptions } from './model/file-uploader-options';
 import { FilterFunction } from './model/filter-function';
 import { ParsedResponseHeaders } from './model/parsed-response-headers';
+import { FileTypeUtils } from './utils/file-type';
 
 function isFile(value: any): boolean {
   return File && value instanceof File;
@@ -14,16 +15,16 @@ function isFile(value: any): boolean {
 export class FileUploader {
   authToken: string;
   isUploading = false;
-  queue: FileUploadItem[] = [];
+  queue: IFileUploadItem[] = [];
   progress = 0;
   _nextIndex = 0;
   autoUpload: any;
   authTokenHeader: string;
   response: EventEmitter<any>;
 
-  options: FileUploaderOptions = {
+  options: IFileUploaderOptions = {
     autoUpload: false,
-    isHTML5: true,
+    isHtml5: true,
     filters: [],
     removeAfterUpload: false,
     disableMultipart: false,
@@ -33,12 +34,12 @@ export class FileUploader {
 
   protected _failFilterIndex: number;
 
-  public constructor(options: FileUploaderOptions) {
+  public constructor(options: IFileUploaderOptions) {
     this.setOptions(options);
     this.response = new EventEmitter<any>();
   }
 
-  public setOptions(options: FileUploaderOptions): void {
+  public setOptions(options: IFileUploaderOptions): void {
     this.options = Object.assign(this.options, options);
 
     this.authToken = this.options.authToken;
@@ -76,7 +77,7 @@ export class FileUploader {
 
   public addToQueue(
     files: File[],
-    options?: FileUploaderOptions,
+    options?: IFileUploaderOptions,
     filters?: FilterFunction[] | string
   ): void {
     const list: File[] = [];
@@ -115,7 +116,7 @@ export class FileUploader {
   public removeFromQueue(value: FileUploadItem): void {
     const index = this.getIndexOfItem(value);
     const item = this.queue[index];
-    if (item.isUploading) {
+    if (item.uploading) {
       item.cancel();
     }
     this.queue.splice(index, 1);
@@ -132,7 +133,7 @@ export class FileUploader {
   public uploadItem(value: FileUploadItem): void {
     const index = this.getIndexOfItem(value);
     const item = this.queue[index];
-    const transport = this.options.isHTML5
+    const transport = this.options.isHtml5
       ? '_xhrTransport'
       : '_iframeTransport';
     item._prepareToUploading();
@@ -146,15 +147,15 @@ export class FileUploader {
   public cancelItem(value: FileUploadItem): void {
     const index = this.getIndexOfItem(value);
     const item = this.queue[index];
-    const prop = this.options.isHTML5 ? item._xhr : item._form;
-    if (item && item.isUploading) {
+    const prop = this.options.isHtml5 ? item.xhr : item.form;
+    if (item && item.uploading) {
       prop.abort();
     }
   }
 
   public uploadAll(): void {
     const items = this.getNotUploadedItems().filter(
-      (item: FileUploadItem) => !item.isUploading
+      (item: FileUploadItem) => !item.uploading
     );
     if (!items.length) {
       return;
@@ -181,12 +182,12 @@ export class FileUploader {
   }
 
   public getNotUploadedItems(): any[] {
-    return this.queue.filter((item: FileUploadItem) => !item.isUploaded);
+    return this.queue.filter((item: FileUploadItem) => !item.uploaded);
   }
 
   public getReadyItems(): any[] {
     return this.queue
-      .filter((item: FileUploadItem) => item.isReady && !item.isUploading)
+      .filter((item: FileUploadItem) => item.ready && !item.uploading)
       .sort((item1: any, item2: any) => item1.index - item2.index);
   }
 
@@ -280,7 +281,8 @@ export class FileUploader {
   public _fileTypeFilter(item: FileWrapper): boolean {
     return !(
       this.options.allowedFileType &&
-      this.options.allowedFileType.indexOf(FileTypeUtils.getMimeClass(item)) === -1
+      this.options.allowedFileType.indexOf(FileTypeUtils.getMimeClass(item)) ===
+        -1
     );
   }
 
@@ -324,7 +326,7 @@ export class FileUploader {
 
   protected _xhrTransport(item: FileUploadItem): any {
     const that = this;
-    const xhr = (item._xhr = new XMLHttpRequest());
+    const xhr = (item.xhr = new XMLHttpRequest());
     let sendable: any;
     this._onBeforeUploadItem(item);
 
@@ -460,7 +462,7 @@ export class FileUploader {
   protected _isValidFile(
     file: FileWrapper,
     filters: FilterFunction[],
-    options: FileUploaderOptions
+    options: IFileUploaderOptions
   ): boolean {
     this._failFilterIndex = -1;
     return !filters.length

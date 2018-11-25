@@ -1,11 +1,11 @@
 import { FilterFunction } from "./filter-function";
 import { FileHeaders } from "./file-headers";
 
-export interface FileUploaderOptions {
+export interface IFileUploaderOptions {
   allowedMimeType?: string[];
   allowedFileType?: string[];
   autoUpload?: boolean;
-  isHTML5?: boolean;
+  isHtml5?: boolean;
   filters?: FilterFunction[];
   headers?: FileHeaders[];
   method?: string;
