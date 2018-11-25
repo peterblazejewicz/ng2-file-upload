@@ -1,46 +1,14 @@
 import { EventEmitter } from '@angular/core';
-import { FileWrapper } from './file-wrapper';
+
+import { FileTypeUtils } from './file-type';
 import { FileUploadItem } from './file-upload-item';
-import { FileType } from './file-type';
+import { FileWrapper } from './file-wrapper';
+import { FileUploaderOptions } from './model/file-uploader-options';
+import { FilterFunction } from './model/filter-function';
+import { ParsedResponseHeaders } from './model/parsed-response-headers';
 
 function isFile(value: any): boolean {
   return File && value instanceof File;
-}
-
-export interface Headers {
-  name: string;
-  value: string;
-}
-
-// tslint:disable-next-line:interface-over-type-literal
-export type ParsedResponseHeaders = { [headerFieldName: string]: string };
-
-// tslint:disable-next-line:interface-over-type-literal
-export type FilterFunction = {
-  name: string;
-  fn: (item?: FileWrapper, options?: FileUploaderOptions) => boolean;
-};
-
-export interface FileUploaderOptions {
-  allowedMimeType?: string[];
-  allowedFileType?: string[];
-  autoUpload?: boolean;
-  isHTML5?: boolean;
-  filters?: FilterFunction[];
-  headers?: Headers[];
-  method?: string;
-  authToken?: string;
-  maxFileSize?: number;
-  queueLimit?: number;
-  removeAfterUpload?: boolean;
-  url?: string;
-  disableMultipart?: boolean;
-  itemAlias?: string;
-  authTokenHeader?: string;
-  additionalParameter?: { [key: string]: any };
-  parametersBeforeFiles?: boolean;
-  formatDataFunction?: Function;
-  formatDataFunctionIsAsync?: boolean;
 }
 
 export class FileUploader {
@@ -59,7 +27,7 @@ export class FileUploader {
     filters: [],
     removeAfterUpload: false,
     disableMultipart: false,
-    formatDataFunction: (item: FileUploadItem) => item._file,
+    formatDataFunction: (item: FileUploadItem) => item.file,
     formatDataFunctionIsAsync: false
   };
 
@@ -312,7 +280,7 @@ export class FileUploader {
   public _fileTypeFilter(item: FileWrapper): boolean {
     return !(
       this.options.allowedFileType &&
-      this.options.allowedFileType.indexOf(FileType.getMimeClass(item)) === -1
+      this.options.allowedFileType.indexOf(FileTypeUtils.getMimeClass(item)) === -1
     );
   }
 
@@ -360,7 +328,7 @@ export class FileUploader {
     let sendable: any;
     this._onBeforeUploadItem(item);
 
-    if (typeof item._file.size !== 'number') {
+    if (typeof item.file.size !== 'number') {
       throw new TypeError('The file specified is no longer valid');
     }
     if (!this.options.disableMultipart) {
@@ -368,7 +336,7 @@ export class FileUploader {
       this._onBuildItemForm(item, sendable);
 
       const appendFile = () =>
-        sendable.append(item.alias, item._file, item.file.name);
+        sendable.append(item.alias, item.file, item.fileWrapper.name);
       if (!this.options.parametersBeforeFiles) {
         appendFile();
       }
@@ -382,7 +350,7 @@ export class FileUploader {
             typeof paramVal === 'string' &&
             paramVal.indexOf('{{file_name}}') >= 0
           ) {
-            paramVal = paramVal.replace('{{file_name}}', item.file.name);
+            paramVal = paramVal.replace('{{file_name}}', item.fileWrapper.name);
           }
           sendable.append(key, paramVal);
         });

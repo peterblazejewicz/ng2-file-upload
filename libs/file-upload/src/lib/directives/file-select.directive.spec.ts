@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { FileSelectDirective } from './file-select.directive';
-import { FileUploadModule } from './file-upload.module';
-import { FileUploader } from './file-uploader';
+import { FileUploadModule } from '../file-upload.module';
+import { FileUploader } from '../file-uploader';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -14,10 +14,8 @@ import { FileUploader } from './file-uploader';
   `
 })
 export class ContainerComponent {
-  public get url(): string {
-    return 'localhost:3000';
-  }
-  public uploader: FileUploader = new FileUploader({ url: this.url });
+  url = 'localhost:3000';
+  uploader: FileUploader = new FileUploader({ url: this.url });
 }
 
 describe('Directive: FileSelectDirective', () => {
@@ -59,27 +57,24 @@ describe('Directive: FileSelectDirective', () => {
   });
 
   it('can get uploader options', () => {
-    const options = fileSelectDirective.getOptions();
 
     // Check url set through binding
-    expect(options.url).toBe(hostComponent.url);
+    expect(fileSelectDirective.options.url).toBe(hostComponent.url);
 
     // Check default options
-    expect(options.autoUpload).toBeFalsy();
-    expect(options.isHTML5).toBeTruthy();
-    expect(options.removeAfterUpload).toBeFalsy();
-    expect(options.disableMultipart).toBeFalsy();
+    expect(fileSelectDirective.options.autoUpload).toBeFalsy();
+    expect(fileSelectDirective.options.isHTML5).toBeTruthy();
+    expect(fileSelectDirective.options.removeAfterUpload).toBeFalsy();
+    expect(fileSelectDirective.options.disableMultipart).toBeFalsy();
   });
 
   it('can get filters', () => {
-    const filters = fileSelectDirective.getFilters();
-
     // TODO: Update test once implemented
-    expect(filters).toEqual({});
+    expect(fileSelectDirective.filters).toEqual({});
   });
 
   it('can check if element is empty', () => {
-    const isElementEmpty = fileSelectDirective.isEmptyAfterSelection();
+    const isElementEmpty = fileSelectDirective.isEmptyAfterSelection;
 
     expect(isElementEmpty).toBeFalsy();
   });
@@ -99,8 +94,8 @@ describe('Directive: FileSelectDirective', () => {
 
     const expectedArguments = [
       directiveElement.nativeElement.files,
-      fileSelectDirective.getOptions(),
-      fileSelectDirective.getFilters()
+      fileSelectDirective.options,
+      fileSelectDirective.filters,
     ];
     expect(fileSelectDirective.uploader.addToQueue).toHaveBeenCalledWith(
       ...expectedArguments

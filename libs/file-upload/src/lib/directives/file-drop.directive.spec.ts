@@ -2,8 +2,8 @@ import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { inject, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FileUploader } from './file-uploader';
-import { FileUploadModule } from './file-upload.module';
+import { FileUploader } from '../file-uploader';
+import { FileUploadModule } from '../file-upload.module';
 import { FileDropDirective } from './file-drop.directive';
 
 @Component({
@@ -14,10 +14,8 @@ import { FileDropDirective } from './file-drop.directive';
   `
 })
 export class ContainerComponent {
-  public get url(): string {
-    return 'localhost:3000';
-  }
-  public uploader: FileUploader = new FileUploader({ url: this.url });
+  url = 'localhost:3000';
+  uploader: FileUploader = new FileUploader({ url: this.url });
 }
 
 describe('Directive: FileDropDirective', () => {
@@ -59,23 +57,19 @@ describe('Directive: FileDropDirective', () => {
   });
 
   it('can get uploader options', () => {
-    const options = fileDropDirective.getOptions();
-
     // Check url set through binding
-    expect(options.url).toBe(hostComponent.url);
+    expect(fileDropDirective.options.url).toBe(hostComponent.url);
 
     // Check default options
-    expect(options.autoUpload).toBeFalsy();
-    expect(options.isHTML5).toBeTruthy();
-    expect(options.removeAfterUpload).toBeFalsy();
-    expect(options.disableMultipart).toBeFalsy();
+    expect(fileDropDirective.options.autoUpload).toBeFalsy();
+    expect(fileDropDirective.options.isHTML5).toBeTruthy();
+    expect(fileDropDirective.options.removeAfterUpload).toBeFalsy();
+    expect(fileDropDirective.options.disableMultipart).toBeFalsy();
   });
 
   it('can get filters', () => {
-    const filters = fileDropDirective.getFilters();
-
     // TODO: Update test once implemented
-    expect(filters).toEqual({});
+    expect(fileDropDirective.filters).toEqual({});
   });
 
   it('handles drop event', () => {
@@ -102,8 +96,8 @@ describe('Directive: FileDropDirective', () => {
     const uploadedFiles = getFakeEventData().dataTransfer.files;
     const expectedArguments = [
       uploadedFiles,
-      fileDropDirective.getOptions(),
-      fileDropDirective.getFilters()
+      fileDropDirective.options,
+      fileDropDirective.filters
     ];
 
     expect(fileDropDirective.uploader.addToQueue).toHaveBeenCalledWith(

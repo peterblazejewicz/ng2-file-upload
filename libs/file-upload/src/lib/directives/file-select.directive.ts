@@ -7,7 +7,7 @@ import {
   Output
 } from '@angular/core';
 
-import { FileUploader } from './file-uploader';
+import { FileUploader } from '../file-uploader';
 
 @Directive({ selector: '[ng2FileSelect]' })
 export class FileSelectDirective {
@@ -17,34 +17,27 @@ export class FileSelectDirective {
     File[]
   >();
 
-  protected element: ElementRef;
+  constructor(private element: ElementRef) {}
 
-  public constructor(element: ElementRef) {
-    this.element = element;
-  }
-
-  public getOptions(): any {
+  get options(): any {
     return this.uploader.options;
   }
 
-  public getFilters(): any {
+  get filters(): any {
     return {};
   }
 
-  public isEmptyAfterSelection(): boolean {
+  get isEmptyAfterSelection(): boolean {
     return !!this.element.nativeElement.attributes.multiple;
   }
 
   @HostListener('change')
-  public onChange(): any {
+  onChange(): any {
     const files = this.element.nativeElement.files;
-    const options = this.getOptions();
-    const filters = this.getFilters();
-
-    this.uploader.addToQueue(files, options, filters);
+    this.uploader.addToQueue(files, this.options, this.filters);
     this.onFileSelected.emit(files);
 
-    if (this.isEmptyAfterSelection()) {
+    if (this.isEmptyAfterSelection) {
       this.element.nativeElement.value = '';
     }
   }

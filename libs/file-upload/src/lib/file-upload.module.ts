@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FileDropDirective } from './file-drop.directive';
-import { FileSelectDirective } from './file-select.directive';
+import { NgModule } from '@angular/core';
+
+import { FileDropDirective } from './directives/file-drop.directive';
+import { FileSelectDirective } from './directives/file-select.directive';
 
 @NgModule({
   imports: [CommonModule],

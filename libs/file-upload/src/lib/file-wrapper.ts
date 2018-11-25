@@ -3,30 +3,30 @@ function isElement(node: any): boolean {
 }
 
 export class FileWrapper {
-  public lastModifiedDate: any;
-  public size: any;
-  public type: string;
-  public name: string;
-  public rawFile: string;
+  lastModifiedDate: any;
+  size: any;
+  type: string;
+  name: string;
+  rawFile: string;
 
-  public constructor(fileOrInput: any) {
+  constructor(fileOrInput: any) {
     this.rawFile = fileOrInput;
     const isInput = isElement(fileOrInput);
     const fakePathOrObject = isInput ? fileOrInput.value : fileOrInput;
-    const postfix =
-      typeof fakePathOrObject === 'string' ? 'FakePath' : 'Object';
-    const method = '_createFrom' + postfix;
-    (this as any)[method](fakePathOrObject);
+    if(typeof fakePathOrObject === 'string') {
+      this._createFromFakePath(fakePathOrObject);
+    } else {
+      this._createFromObject(fakePathOrObject);
+    }
   }
 
-  public _createFromFakePath(path: string): void {
-    this.lastModifiedDate = void 0;
-    this.size = void 0;
+  _createFromFakePath(path: string): void {
+    this.lastModifiedDate = undefined;
+    this.size = undefined;
     this.type = 'like/' + path.slice(path.lastIndexOf('.') + 1).toLowerCase();
     this.name = path.slice(path.lastIndexOf('/') + path.lastIndexOf('\\') + 2);
   }
-
-  public _createFromObject(object: {
+  _createFromObject(object: {
     size: number;
     type: string;
     name: string;

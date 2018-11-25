@@ -1,6 +1,6 @@
 import { FileWrapper } from './file-wrapper';
 
-export class FileType {
+export class FileTypeUtils {
   /*  MS office  */
   public static mime_doc: string[] = [
     'application/msword',
@@ -62,7 +62,7 @@ export class FileType {
 
   public static getMimeClass(file: FileWrapper): string {
     let mimeClass = 'application';
-    if (this.mime_psd.indexOf(file.type) !== -1) {
+    if (FileTypeUtils.mime_psd.indexOf(file.type) !== -1) {
       mimeClass = 'image';
     } else if (file.type.match('image.*')) {
       mimeClass = 'image';
@@ -72,17 +72,17 @@ export class FileType {
       mimeClass = 'audio';
     } else if (file.type === 'application/pdf') {
       mimeClass = 'pdf';
-    } else if (this.mime_compress.indexOf(file.type) !== -1) {
+    } else if (FileTypeUtils.mime_compress.indexOf(file.type) !== -1) {
       mimeClass = 'compress';
-    } else if (this.mime_doc.indexOf(file.type) !== -1) {
+    } else if (FileTypeUtils.mime_doc.indexOf(file.type) !== -1) {
       mimeClass = 'doc';
-    } else if (this.mime_xsl.indexOf(file.type) !== -1) {
+    } else if (FileTypeUtils.mime_xsl.indexOf(file.type) !== -1) {
       mimeClass = 'xls';
-    } else if (this.mime_ppt.indexOf(file.type) !== -1) {
+    } else if (FileTypeUtils.mime_ppt.indexOf(file.type) !== -1) {
       mimeClass = 'ppt';
     }
     if (mimeClass === 'application') {
-      mimeClass = this.fileTypeDetection(file.name);
+      mimeClass = FileTypeUtils.fileTypeDetection(file.name);
     }
 
     return mimeClass;

@@ -1,44 +1,43 @@
+import { FileUploader } from './file-uploader';
+import { FileUploaderOptions } from './model/file-uploader-options';
 import { FileWrapper } from './file-wrapper';
-import {
-  FileUploader,
-  ParsedResponseHeaders,
-  FileUploaderOptions
-} from './file-uploader';
+import { ParsedResponseHeaders } from './model/parsed-response-headers';
 
 export class FileUploadItem {
-  public file: FileWrapper;
-  public _file: File;
-  public alias: string;
-  public url = '/';
-  public method: string;
-  public headers: any = [];
-  public withCredentials = true;
-  public formData: any = [];
-  public isReady = false;
-  public isUploading = false;
-  public isUploaded = false;
-  public isSuccess = false;
-  public isCancel = false;
-  public isError = false;
-  public progress = 0;
-  public index: number = void 0;
-  public _xhr: XMLHttpRequest;
-  public _form: any;
+  /**
+   * Expose access to original File object
+   * @readonly
+   * @type {File}
+   * @memberof FileUploadItem
+   */
+  get file(): File {
+    return this._file;
+  }
 
-  protected uploader: FileUploader;
-  protected some: File;
-  protected options: FileUploaderOptions;
+  fileWrapper: FileWrapper;
+  alias: string;
+  url = '/';
+  method: string;
+  headers: any = [];
+  withCredentials = true;
+  formData: any = [];
+  isReady = false;
+  isUploading = false;
+  isUploaded = false;
+  isSuccess = false;
+  isCancel = false;
+  isError = false;
+  progress = 0;
+  index: number = void 0;
+  _xhr: XMLHttpRequest;
+  _form: any;
 
-  public constructor(
-    uploader: FileUploader,
-    some: File,
-    options: FileUploaderOptions
+  constructor(
+    protected uploader: FileUploader,
+    private _file: File,
+    protected options: FileUploaderOptions
   ) {
-    this.uploader = uploader;
-    this.some = some;
-    this.options = options;
-    this.file = new FileWrapper(some);
-    this._file = some;
+    this.fileWrapper = new FileWrapper(this.file);
     if (uploader.options) {
       this.method = uploader.options.method || 'POST';
       this.alias = uploader.options.itemAlias || 'file';
@@ -46,7 +45,7 @@ export class FileUploadItem {
     this.url = uploader.options.url;
   }
 
-  public upload(): void {
+  public upload() {
     try {
       this.uploader.uploadItem(this);
     } catch (e) {
@@ -55,16 +54,16 @@ export class FileUploadItem {
     }
   }
 
-  public cancel(): void {
+  public cancel() {
     this.uploader.cancelItem(this);
   }
 
-  public remove(): void {
+  public remove() {
     this.uploader.removeFromQueue(this);
   }
 
-  public onBeforeUpload(): void {
-    return void 0;
+  public onBeforeUpload(): any {
+    return undefined;
   }
 
   public onBuildForm(form: any): any {
