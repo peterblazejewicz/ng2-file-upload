@@ -8,13 +8,16 @@
     "nx.json": "*"
   },
   "projects": {
-    "file-upload": {
-      "tags": []
-    },
     "file-upload-demo": {
       "tags": []
     },
     "file-upload-demo-e2e": {
+      "tags": []
+    },
+    "file-upload": {
+      "tags": []
+    },
+    "file-upload-demo-server": {
       "tags": []
     }
   }

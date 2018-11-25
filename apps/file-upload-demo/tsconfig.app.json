@@ -1,7 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc/apps/file-upload-demo"
+    "outDir": "../../dist/out-tsc/apps/file-upload-demo",
+    "types": [
+      "node"
+    ]
   },
   "exclude": ["test.ts", "**/*.spec.ts"],
   "include": ["**/*.ts"]
