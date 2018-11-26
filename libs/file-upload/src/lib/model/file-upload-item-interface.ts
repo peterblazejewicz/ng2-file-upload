@@ -22,4 +22,5 @@ export interface IFileUploadItem {
   cancel(): void;
   _prepareToUploading(): void;
   remove(): void;
+  upload(): void;
 }
