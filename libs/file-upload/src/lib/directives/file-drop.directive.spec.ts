@@ -1,9 +1,9 @@
 import { Component, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { inject, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FileUploader } from '../file-uploader';
 import { FileUploadModule } from '../file-upload.module';
+import { FileUploader } from '../file-uploader';
 import { FileDropDirective } from './file-drop.directive';
 
 @Component({

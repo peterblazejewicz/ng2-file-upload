@@ -1,9 +1,9 @@
-import { IFileUploaderOptions } from './model/file-uploader-options';
-import { ParsedResponseHeaders } from './model/parsed-response-headers';
-import { IFileWrapper } from './model/file-wrapper-interface';
 import { FileWrapper } from './file-wrapper';
-import { FileUploader } from './file-uploader';
+import { FileUploaderImpl } from './implementation/file-uploader.impl';
 import { IFileUploadItem } from './model/file-upload-item-interface';
+import { FileUploaderOptions } from './model/file-uploader-options';
+import { IFileWrapper } from './model/file-wrapper-interface';
+import { ParsedResponseHeaders } from './model/parsed-response-headers';
 
 export class FileUploadItem implements IFileUploadItem {
   alias: string;
@@ -26,9 +26,9 @@ export class FileUploadItem implements IFileUploadItem {
   form: any;
 
   constructor(
-    protected uploader: FileUploader,
+    protected uploader: FileUploaderImpl,
     public file: File,
-    protected options: IFileUploaderOptions
+    protected options: FileUploaderOptions
   ) {
     this.fileWrapper = new FileWrapper(this.file);
     if (uploader.options) {

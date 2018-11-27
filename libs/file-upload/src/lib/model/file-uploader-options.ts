@@ -1,7 +1,7 @@
-import { FilterFunction } from "./filter-function";
-import { FileHeaders } from "./file-headers";
+import { FileHeaders } from './file-headers';
+import { FilterFunction } from './filter-function';
 
-export interface IFileUploaderOptions {
+export interface FileUploaderOptions {
   allowedMimeType?: string[];
   allowedFileType?: string[];
   autoUpload?: boolean;

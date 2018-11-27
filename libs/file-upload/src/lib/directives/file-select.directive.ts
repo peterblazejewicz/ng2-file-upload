@@ -1,14 +1,7 @@
-import {
-  Directive,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  Output
-} from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 import { FileUploader } from '../file-uploader';
-import { IFileUploaderOptions } from '../model/file-uploader-options';
+import { FileUploaderOptions } from '../model/file-uploader-options';
 
 @Directive({ selector: '[ng2FileSelect]' })
 export class FileSelectDirective {
@@ -20,7 +13,7 @@ export class FileSelectDirective {
 
   constructor(private element: ElementRef) {}
 
-  get options(): IFileUploaderOptions {
+  get options(): FileUploaderOptions {
     return this.uploader.options;
   }
 

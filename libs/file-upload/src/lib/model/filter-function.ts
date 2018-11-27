@@ -1,7 +1,7 @@
-import { FileWrapper } from "../file-wrapper";
-import { IFileUploaderOptions } from "./file-uploader-options";
+import { FileWrapper } from '../file-wrapper';
+import { FileUploaderOptions } from './file-uploader-options';
 
 export interface FilterFunction {
   name: string;
-  fn: (item?: FileWrapper, options?: IFileUploaderOptions) => boolean;
+  fn: (item?: FileWrapper, options?: FileUploaderOptions) => boolean;
 }
