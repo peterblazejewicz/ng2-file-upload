@@ -1,186 +1,57 @@
 import { FileWrapper } from './file-wrapper';
-import { FileUploaderImpl } from './implementation/file-uploader.impl';
-import { IFileUploadItem } from './model/file-upload-item-interface';
-import { FileUploaderOptions } from './model/file-uploader-options';
 import { ParsedResponseHeaders } from './model/parsed-response-headers';
-import { CreateFileWrapper } from './implementation/file-wrapper.impl';
 
-export class FileUploadItem implements IFileUploadItem {
-  alias: string;
-  url = '/';
-  method: string;
-  headers = [];
-  withCredentials = true;
+export interface FileUploadItem {
+  url: string;
+  readonly file: File;
 
-  ready = false;
-  uploading = false;
-  uploaded = false;
-  success = false;
-  cancelled = false;
-  error = false;
-  private progress = 0;
-  private index = 0;
-
-  fileWrapper: FileWrapper;
+  readonly form: any;
   xhr: XMLHttpRequest;
-  form: any;
+  readonly cancelled: boolean;
+  readonly error: boolean;
+  readonly ready: boolean;
+  readonly success: boolean;
+  readonly uploaded: boolean;
+  readonly uploading: boolean;
 
-  constructor(
-    protected uploader: FileUploaderImpl,
-    public file: File,
-    protected options: FileUploaderOptions
-  ) {
-    this.fileWrapper = CreateFileWrapper(this.file);
-    if (uploader.options) {
-      this.method = uploader.options.method || 'POST';
-      this.alias = uploader.options.itemAlias || 'file';
-    }
-    this.url = uploader.options.url;
-  }
+  readonly withCredentials: boolean;
+  readonly headers: any[];
+  readonly method: string;
+  readonly alias: string;
+  readonly fileWrapper: FileWrapper;
 
-  public upload() {
-    try {
-      this.uploader.uploadItem(this);
-    } catch (e) {
-      this.uploader._onCompleteItem(this, '', 0, {});
-      this.uploader._onErrorItem(this, '', 0, {});
-    }
-  }
+  cancel(): void;
 
-  public cancel() {
-    this.uploader.cancelItem(this);
-  }
+  onBeforeUpload(): void;
 
-  public remove() {
-    this.uploader.removeFromQueue(this);
-  }
+  onBuildForm(form: any): void;
 
-  public onBeforeUpload(): any {
-    return undefined;
-  }
-
-  public onBuildForm(form: any): any {
-    return { form };
-  }
-
-  public onProgress(progress: number): any {
-    return { progress };
-  }
-
-  public onSuccess(
+  onError(
     response: string,
     status: number,
     headers: ParsedResponseHeaders
-  ): any {
-    return { response, status, headers };
-  }
-
-  public onError(
+  ): void;
+  onCancel(
     response: string,
     status: number,
     headers: ParsedResponseHeaders
-  ): any {
-    return { response, status, headers };
-  }
+  ): void;
 
-  public onCancel(
+  onComplete(
     response: string,
     status: number,
     headers: ParsedResponseHeaders
-  ): any {
-    return { response, status, headers };
-  }
+  ): void;
 
-  public onComplete(
+  onSuccess(
     response: string,
     status: number,
     headers: ParsedResponseHeaders
-  ): any {
-    return { response, status, headers };
-  }
+  ): void;
 
-  public _onBeforeUpload(): void {
-    this.ready = true;
-    this.uploading = true;
-    this.uploaded = false;
-    this.success = false;
-    this.cancelled = false;
-    this.error = false;
-    this.progress = 0;
-    this.onBeforeUpload();
-  }
+  onProgress(progress: number): void;
 
-  public _onBuildForm(form: any): void {
-    this.onBuildForm(form);
-  }
-
-  public _onProgress(progress: number): void {
-    this.progress = progress;
-    this.onProgress(progress);
-  }
-
-  public _onSuccess(
-    response: string,
-    status: number,
-    headers: ParsedResponseHeaders
-  ): void {
-    this.ready = false;
-    this.uploading = false;
-    this.uploaded = true;
-    this.success = true;
-    this.cancelled = false;
-    this.error = false;
-    this.progress = 100;
-    this.index = void 0;
-    this.onSuccess(response, status, headers);
-  }
-
-  public _onError(
-    response: string,
-    status: number,
-    headers: ParsedResponseHeaders
-  ): void {
-    this.ready = false;
-    this.uploading = false;
-    this.uploaded = true;
-    this.success = false;
-    this.cancelled = false;
-    this.error = true;
-    this.progress = 0;
-    this.index = void 0;
-    this.onError(response, status, headers);
-  }
-
-  public _onCancel(
-    response: string,
-    status: number,
-    headers: ParsedResponseHeaders
-  ): void {
-    this.ready = false;
-    this.uploading = false;
-    this.uploaded = false;
-    this.success = false;
-    this.cancelled = true;
-    this.error = false;
-    this.progress = 0;
-    this.index = void 0;
-    this.onCancel(response, status, headers);
-  }
-
-  public _onComplete(
-    response: string,
-    status: number,
-    headers: ParsedResponseHeaders
-  ): void {
-    this.onComplete(response, status, headers);
-
-    if (this.uploader.options.removeAfterUpload) {
-      this.remove();
-    }
-  }
-
-  public _prepareToUploading(): void {
-    this.index = this.index || ++this.uploader._nextIndex;
-    this.ready = true;
-  }
+  prepareToUploading(): void;
+  remove(): void;
+  upload(): void;
 }

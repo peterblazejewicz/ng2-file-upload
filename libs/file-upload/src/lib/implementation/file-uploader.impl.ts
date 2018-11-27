@@ -2,12 +2,12 @@ import { EventEmitter } from '@angular/core';
 
 import { FileUploadItem } from '../file-upload-item';
 import { FileWrapper } from '../file-wrapper';
-import { IFileUploadItem } from '../model/file-upload-item-interface';
 import { FileUploaderOptions } from '../model/file-uploader-options';
 import { FilterFunction } from '../model/filter-function';
 import { ParsedResponseHeaders } from '../model/parsed-response-headers';
 import { FileTypeUtils } from '../utils/file-type';
 import { CreateFileWrapper } from './file-wrapper.impl';
+import { FileUploadItemImpl } from './file-upload-item.impl';
 
 function isFile(value: any): boolean {
   return File && value instanceof File;
@@ -16,7 +16,7 @@ function isFile(value: any): boolean {
 export class FileUploaderImpl {
   authToken: string;
   isUploading = false;
-  queue: IFileUploadItem[] = [];
+  queue: FileUploadItem[] = [];
   progress = 0;
   _nextIndex = 0;
   autoUpload: any;
@@ -95,7 +95,7 @@ export class FileUploaderImpl {
 
       const temp = CreateFileWrapper(file);
       if (this._isValidFile(temp, arrayOfFilters, options)) {
-        const fileItem = new FileUploadItem(this, file, options);
+        const fileItem = new FileUploadItemImpl(this, file, options);
         addedFileItems.push(fileItem);
         this.queue.push(fileItem);
         this._onAfterAddingFile(fileItem);
@@ -137,7 +137,7 @@ export class FileUploaderImpl {
     const transport = this.options.isHtml5
       ? '_xhrTransport'
       : '_iframeTransport';
-    item._prepareToUploading();
+    item.prepareToUploading();
     if (this.isUploading) {
       return;
     }
@@ -161,7 +161,7 @@ export class FileUploaderImpl {
     if (!items.length) {
       return;
     }
-    items.map((item: FileUploadItem) => item._prepareToUploading());
+    items.map((item: FileUploadItem) => item.prepareToUploading());
     items[0].upload();
   }
 
@@ -293,7 +293,7 @@ export class FileUploaderImpl {
     status: number,
     headers: ParsedResponseHeaders
   ): void {
-    item._onError(response, status, headers);
+    item.onError(response, status, headers);
     this.onErrorItem(item, response, status, headers);
   }
 
@@ -303,7 +303,7 @@ export class FileUploaderImpl {
     status: number,
     headers: ParsedResponseHeaders
   ): void {
-    item._onComplete(response, status, headers);
+    item.onComplete(response, status, headers);
     this.onCompleteItem(item, response, status, headers);
     const nextItem = this.getReadyItems()[0];
     this.isUploading = false;
@@ -524,19 +524,19 @@ export class FileUploaderImpl {
   }
 
   protected _onBeforeUploadItem(item: FileUploadItem): void {
-    item._onBeforeUpload();
+    item.onBeforeUpload();
     this.onBeforeUploadItem(item);
   }
 
   protected _onBuildItemForm(item: FileUploadItem, form: any): void {
-    item._onBuildForm(form);
+    item.onBuildForm(form);
     this.onBuildItemForm(item, form);
   }
 
   protected _onProgressItem(item: FileUploadItem, progress: any): void {
     const total = this._getTotalProgress(progress);
     this.progress = total;
-    item._onProgress(progress);
+    item.onProgress(progress);
     this.onProgressItem(item, progress);
     this.onProgressAll(total);
     this._render();
@@ -548,7 +548,7 @@ export class FileUploaderImpl {
     status: number,
     headers: ParsedResponseHeaders
   ): void {
-    item._onSuccess(response, status, headers);
+    item.onSuccess(response, status, headers);
     this.onSuccessItem(item, response, status, headers);
   }
 
@@ -558,7 +558,7 @@ export class FileUploaderImpl {
     status: number,
     headers: ParsedResponseHeaders
   ): void {
-    item._onCancel(response, status, headers);
+    item.onCancel(response, status, headers);
     this.onCancelItem(item, response, status, headers);
   }
 }

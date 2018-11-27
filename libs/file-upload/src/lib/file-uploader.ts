@@ -1,10 +1,9 @@
 import { EventEmitter } from '@angular/core';
 
-import { FileUploadItem } from '..';
+import { FileUploadItem } from './file-upload-item';
 import { FileUploaderImpl } from './implementation/file-uploader.impl';
 import { FileUploaderOptions } from './model/file-uploader-options';
 import { FilterFunction } from './model/filter-function';
-import { IFileUploadItem } from './model/file-upload-item-interface';
 
 export class FileUploader {
   private uploader: FileUploaderImpl;
@@ -16,7 +15,7 @@ export class FileUploader {
     return this.uploader.options;
   }
 
-  get queue(): IFileUploadItem[] {
+  get queue(): FileUploadItem[] {
     return this.uploader.queue;
   }
 
