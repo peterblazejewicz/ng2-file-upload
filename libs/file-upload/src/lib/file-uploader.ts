@@ -23,6 +23,10 @@ export class FileUploader {
     return this.uploader.response;
   }
 
+  get uploading(): boolean {
+    return this.uploader.uploading;
+  }
+
   constructor(options: FileUploaderOptions) {
     this.uploader = new FileUploaderImpl(options);
   }

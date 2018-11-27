@@ -15,7 +15,7 @@ function isFile(value: any): boolean {
 
 export class FileUploaderImpl {
   authToken: string;
-  isUploading = false;
+  uploading = false;
   queue: FileUploadItem[] = [];
   progress = 0;
   _nextIndex = 0;
@@ -138,10 +138,10 @@ export class FileUploaderImpl {
       ? '_xhrTransport'
       : '_iframeTransport';
     item.prepareToUploading();
-    if (this.isUploading) {
+    if (this.uploading) {
       return;
     }
-    this.isUploading = true;
+    this.uploading = true;
     (this as any)[transport](item);
   }
 
@@ -306,7 +306,7 @@ export class FileUploaderImpl {
     item.onComplete(response, status, headers);
     this.onCompleteItem(item, response, status, headers);
     const nextItem = this.getReadyItems()[0];
-    this.isUploading = false;
+    this.uploading = false;
     if (nextItem) {
       nextItem.upload();
       return;

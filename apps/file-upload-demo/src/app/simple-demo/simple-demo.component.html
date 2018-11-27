@@ -62,7 +62,7 @@
               <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.ready || item.uploading || item.success">
                 <span class="glyphicon glyphicon-upload"></span> Upload
               </button>
-              <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
+              <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.uploading">
                 <span class="glyphicon glyphicon-ban-circle"></span> Cancel
               </button>
               <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
@@ -83,7 +83,7 @@
         <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.notUploadedItems.length">
           <span class="glyphicon glyphicon-upload"></span> Upload all
         </button>
-        <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+        <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.uploading">
           <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
         </button>
         <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
