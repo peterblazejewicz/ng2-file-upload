@@ -1,7 +1,7 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
 
 import { FileUploader } from '../file-uploader';
-import { FileUploaderOptions } from '../model/file-uploader-options';
+import { FileUploaderOptions } from '../file-uploader-options';
 
 @Directive({ selector: '[ng2FileSelect]' })
 export class FileSelectDirective {

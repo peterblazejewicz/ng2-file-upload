@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FileUploader, FileUploadItem } from '@ng2/file-upload';
+import { FileUploader, FileUploadItem, FileUploaderOptions } from '@ng2/file-upload';
 
 // const URL = '/api/';
 const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
@@ -17,7 +17,7 @@ export class SimpleDemoComponent implements OnInit {
   response: string;
 
   ngOnInit() {
-    this.uploader = new FileUploader({
+    const options: FileUploaderOptions = {
       url: URL,
       disableMultipart: true, // 'DisableMultipart' must be 'true' for formatDataFunction to be called.
       formatDataFunctionIsAsync: true,
@@ -30,9 +30,9 @@ export class SimpleDemoComponent implements OnInit {
             date: new Date()
           });
         });
-      }
-    });
-
+      },
+    };
+    this.uploader = new FileUploader(options);
     this.hasBaseDropZoneOver = false;
     this.hasAnotherDropZoneOver = false;
 

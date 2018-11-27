@@ -1,5 +1,5 @@
 import { FileWrapper } from '../file-wrapper';
-import { FileUploaderOptions } from './file-uploader-options';
+import { FileUploaderOptions } from '../file-uploader-options';
 
 export interface FilterFunction {
   name: string;

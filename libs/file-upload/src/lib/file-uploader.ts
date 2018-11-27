@@ -2,7 +2,7 @@ import { EventEmitter } from '@angular/core';
 
 import { FileUploadItem } from './file-upload-item';
 import { FileUploaderImpl } from './implementation/file-uploader.impl';
-import { FileUploaderOptions } from './model/file-uploader-options';
+import { FileUploaderOptions } from './file-uploader-options';
 import { FilterFunction } from './model/filter-function';
 
 export class FileUploader {
