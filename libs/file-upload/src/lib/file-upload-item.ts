@@ -2,8 +2,8 @@ import { FileWrapper } from './file-wrapper';
 import { FileUploaderImpl } from './implementation/file-uploader.impl';
 import { IFileUploadItem } from './model/file-upload-item-interface';
 import { FileUploaderOptions } from './model/file-uploader-options';
-import { IFileWrapper } from './model/file-wrapper-interface';
 import { ParsedResponseHeaders } from './model/parsed-response-headers';
+import { CreateFileWrapper } from './implementation/file-wrapper.impl';
 
 export class FileUploadItem implements IFileUploadItem {
   alias: string;
@@ -21,7 +21,7 @@ export class FileUploadItem implements IFileUploadItem {
   private progress = 0;
   private index = 0;
 
-  fileWrapper: IFileWrapper;
+  fileWrapper: FileWrapper;
   xhr: XMLHttpRequest;
   form: any;
 
@@ -30,7 +30,7 @@ export class FileUploadItem implements IFileUploadItem {
     public file: File,
     protected options: FileUploaderOptions
   ) {
-    this.fileWrapper = new FileWrapper(this.file);
+    this.fileWrapper = CreateFileWrapper(this.file);
     if (uploader.options) {
       this.method = uploader.options.method || 'POST';
       this.alias = uploader.options.itemAlias || 'file';

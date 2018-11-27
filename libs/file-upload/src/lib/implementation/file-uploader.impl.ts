@@ -7,6 +7,7 @@ import { FileUploaderOptions } from '../model/file-uploader-options';
 import { FilterFunction } from '../model/filter-function';
 import { ParsedResponseHeaders } from '../model/parsed-response-headers';
 import { FileTypeUtils } from '../utils/file-type';
+import { CreateFileWrapper } from './file-wrapper.impl';
 
 function isFile(value: any): boolean {
   return File && value instanceof File;
@@ -92,7 +93,7 @@ export class FileUploaderImpl {
         options = this.options;
       }
 
-      const temp = new FileWrapper(file);
+      const temp = CreateFileWrapper(file);
       if (this._isValidFile(temp, arrayOfFilters, options)) {
         const fileItem = new FileUploadItem(this, file, options);
         addedFileItems.push(fileItem);

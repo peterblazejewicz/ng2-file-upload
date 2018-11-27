@@ -1,4 +1,4 @@
-import { IFileWrapper } from "./file-wrapper-interface";
+import { FileWrapper } from "../file-wrapper";
 
 export interface IFileUploadItem {
   url: string;
@@ -17,7 +17,7 @@ export interface IFileUploadItem {
   readonly headers: any[];
   readonly method: string;
   readonly alias: string;
-  readonly fileWrapper: IFileWrapper;
+  readonly fileWrapper: FileWrapper;
 
   cancel(): void;
   _prepareToUploading(): void;
