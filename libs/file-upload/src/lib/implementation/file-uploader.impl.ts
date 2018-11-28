@@ -18,9 +18,13 @@ export class FileUploaderImpl {
   uploading = false;
   queue: FileUploadItem[] = [];
   progress = 0;
-  _nextIndex = 0;
+  nextIndex = 0;
   autoUpload: any;
   authTokenHeader: string;
+
+  get notUploadedItems(): FileUploadItem[] {
+    return this.queue.filter((item: FileUploadItem) => !item.uploaded);
+  }
   response: EventEmitter<any>;
 
   options: FileUploaderOptions = {
@@ -33,7 +37,7 @@ export class FileUploaderImpl {
     formatDataFunctionIsAsync: false
   };
 
-  protected _failFilterIndex: number;
+  private failFilterIndex: number;
 
   public constructor(options: FileUploaderOptions) {
     this.setOptions(options);
@@ -100,7 +104,7 @@ export class FileUploaderImpl {
         this.queue.push(fileItem);
         this._onAfterAddingFile(fileItem);
       } else {
-        const filter = arrayOfFilters[this._failFilterIndex];
+        const filter = arrayOfFilters[this.failFilterIndex];
         this._onWhenAddingFileFailed(temp, filter, options);
       }
     });
@@ -115,7 +119,7 @@ export class FileUploaderImpl {
   }
 
   public removeFromQueue(value: FileUploadItem): void {
-    const index = this.getIndexOfItem(value);
+    const index = this.indexOfItem(value);
     const item = this.queue[index];
     if (item.uploading) {
       item.cancel();
@@ -132,7 +136,7 @@ export class FileUploaderImpl {
   }
 
   public uploadItem(value: FileUploadItem): void {
-    const index = this.getIndexOfItem(value);
+    const index = this.indexOfItem(value);
     const item = this.queue[index];
     const transport = this.options.isHtml5
       ? '_xhrTransport'
@@ -146,7 +150,7 @@ export class FileUploaderImpl {
   }
 
   public cancelItem(value: FileUploadItem): void {
-    const index = this.getIndexOfItem(value);
+    const index = this.indexOfItem(value);
     const item = this.queue[index];
     const prop = this.options.isHtml5 ? item.xhr : item.form;
     if (item && item.uploading) {
@@ -155,7 +159,7 @@ export class FileUploaderImpl {
   }
 
   public uploadAll(): void {
-    const items = this.getNotUploadedItems().filter(
+    const items = this.notUploadedItems.filter(
       (item: FileUploadItem) => !item.uploading
     );
     if (!items.length) {
@@ -166,7 +170,7 @@ export class FileUploaderImpl {
   }
 
   public cancelAll(): void {
-    const items = this.getNotUploadedItems();
+    const items = this.notUploadedItems;
     items.map((item: FileUploadItem) => item.cancel());
   }
 
@@ -178,15 +182,11 @@ export class FileUploaderImpl {
     return value instanceof FileWrapper;
   }
 
-  public getIndexOfItem(value: any): number {
+  public indexOfItem(value: FileUploadItem): number {
     return typeof value === 'number' ? value : this.queue.indexOf(value);
   }
 
-  public getNotUploadedItems(): any[] {
-    return this.queue.filter((item: FileUploadItem) => !item.uploaded);
-  }
-
-  public getReadyItems(): any[] {
+  public getReadyItems(): FileUploadItem[] {
     return this.queue
       .filter((item: FileUploadItem) => item.ready && !item.uploading)
       .sort((item1: any, item2: any) => item1.index - item2.index);
@@ -424,7 +424,7 @@ export class FileUploaderImpl {
     if (this.options.removeAfterUpload) {
       return value;
     }
-    const notUploaded = this.getNotUploadedItems().length;
+    const notUploaded = this.notUploadedItems.length;
     const uploaded = notUploaded
       ? this.queue.length - notUploaded
       : this.queue.length;
@@ -465,11 +465,11 @@ export class FileUploaderImpl {
     filters: FilterFunction[],
     options: FileUploaderOptions
   ): boolean {
-    this._failFilterIndex = -1;
+    this.failFilterIndex = -1;
     return !filters.length
       ? true
       : filters.every((filter: FilterFunction) => {
-          this._failFilterIndex++;
+          this.failFilterIndex++;
           return filter.fn.call(this, file, options);
         });
   }

@@ -180,7 +180,7 @@ export class FileUploadItemImpl implements FileUploadItem {
   }
 
   prepareToUploading(): void {
-    this.index = this.index || ++this.uploader._nextIndex;
+    this.index = this.index || ++this.uploader.nextIndex;
     this.ready = true;
   }
 }

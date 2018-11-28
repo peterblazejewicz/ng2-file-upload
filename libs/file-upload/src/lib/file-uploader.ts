@@ -9,7 +9,7 @@ export class FileUploader {
   private uploader: FileUploaderImpl;
 
   get notUploadedItems(): any {
-    return this.uploader.getNotUploadedItems();
+    return this.uploader.notUploadedItems;
   }
   get options(): FileUploaderOptions {
     return this.uploader.options;
