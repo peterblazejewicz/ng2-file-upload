@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import * as doc from 'html-loader!markdown-loader!../../../src/docs/doc.md';
+import { request } from 'https';
 
-const tabDesc: Array<any> = [
+const tabDesc: {[key: string]: string}[] = [
   {
     heading: 'Simple',
     ts: require('!raw-loader?lang=typescript!../simple-demo/simple-demo.component.ts'),
     html: require('!raw-loader?lang=markup!../simple-demo/simple-demo.component.html'),
-    js: require('!raw-loader?lang=javascript!../simple-demo/file-catcher.js')
+    js: require('!raw-loader?lang=typescript!../../../../file-upload-demo-server/src/main.ts')
   }
 ];
 
