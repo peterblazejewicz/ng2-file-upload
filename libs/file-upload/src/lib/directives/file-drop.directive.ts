@@ -7,8 +7,7 @@ import { FileUploaderOptions } from '../file-uploader-options';
 export class FileDropDirective {
   @Input() public uploader: FileUploader;
   @Output() public fileOver: EventEmitter<any> = new EventEmitter();
-  // tslint:disable-next-line:no-output-on-prefix
-  @Output() public onFileDrop: EventEmitter<File[]> = new EventEmitter<
+  @Output() public fileDrop: EventEmitter<File[]> = new EventEmitter<
     File[]
   >();
 
@@ -32,7 +31,7 @@ export class FileDropDirective {
     this._preventAndStop(event);
     this.uploader.addToQueue(transfer.files, this.options, this.filters);
     this.fileOver.emit(false);
-    this.onFileDrop.emit(transfer.files);
+    this.fileDrop.emit(transfer.files);
   }
 
   @HostListener('dragover', ['$event'])

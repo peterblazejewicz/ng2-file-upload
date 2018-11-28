@@ -6,8 +6,7 @@ import { FileUploaderOptions } from '../file-uploader-options';
 @Directive({ selector: '[ng2FileSelect]' })
 export class FileSelectDirective {
   @Input() public uploader: FileUploader;
-  // tslint:disable-next-line:no-output-on-prefix
-  @Output() public onFileSelected: EventEmitter<File[]> = new EventEmitter<
+  @Output() public fileSelected: EventEmitter<File[]> = new EventEmitter<
     File[]
   >();
 
@@ -29,7 +28,7 @@ export class FileSelectDirective {
   onChange(): any {
     const files = this.element.nativeElement.files;
     this.uploader.addToQueue(files, this.options, this.filters);
-    this.onFileSelected.emit(files);
+    this.fileSelected.emit(files);
 
     if (this.isEmptyAfterSelection) {
       this.element.nativeElement.value = '';

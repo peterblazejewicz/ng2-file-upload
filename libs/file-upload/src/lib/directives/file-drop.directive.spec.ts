@@ -87,7 +87,7 @@ describe('Directive: FileDropDirective', () => {
     fileDropDirective.fileOver.subscribe((data: any) => (fileOverData = data));
 
     let fileDropData;
-    fileDropDirective.onFileDrop.subscribe(
+    fileDropDirective.fileDrop.subscribe(
       (data: File[]) => (fileDropData = data)
     );
 
