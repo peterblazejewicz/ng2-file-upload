@@ -19,6 +19,10 @@ export class FileUploader {
     return this.uploader.queue;
   }
 
+  get progress(): number {
+    return this.uploader.progress;
+  }
+
   get response(): EventEmitter<any> {
     return this.uploader.response;
   }
