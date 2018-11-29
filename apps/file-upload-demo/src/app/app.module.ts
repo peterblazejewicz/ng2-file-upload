@@ -8,6 +8,9 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { AppComponent } from './app.component';
 import { FileUploadSectionComponent } from './file-upload-section/file-upload-section.component';
 import { SimpleDemoComponent } from './simple-demo/simple-demo.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCheck, faBan, faTimesCircle, faUpload, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 @NgModule({
   declarations: [AppComponent, FileUploadSectionComponent, SimpleDemoComponent],
@@ -16,9 +19,20 @@ import { SimpleDemoComponent } from './simple-demo/simple-demo.component';
     NxModule.forRoot(),
     RouterModule.forRoot([], { initialNavigation: 'enabled' }),
     FileUploadModule,
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    library.add(
+      faCheck,
+      faBan,
+      faTrash,
+      faUpload,
+      faTimesCircle
+    )
+  }
+}

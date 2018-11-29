@@ -49,24 +49,24 @@
             <td><strong>{{ item?.file?.name }}</strong></td>
             <td *ngIf="uploader.options.isHtml5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
             <td *ngIf="uploader.options.isHtml5">
-              <div class="progress" style="margin-bottom: 0;">
+              <div class="progress">
                 <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
               </div>
             </td>
             <td class="text-center">
-              <span *ngIf="item.success"><i class="glyphicon glyphicon-ok"></i></span>
-              <span *ngIf="item.cancelled"><i class="glyphicon glyphicon-ban-circle"></i></span>
-              <span *ngIf="item.error"><i class="glyphicon glyphicon-remove"></i></span>
+              <span *ngIf="item.success"><fa-icon [icon]="['fas', 'check']"></fa-icon></span>
+              <span *ngIf="item.cancelled"><fa-icon [icon]="['fas', 'ban']"></fa-icon></span>
+              <span *ngIf="item.error"><fa-icon [icon]="['fas', 'times-circle']"></fa-icon></span>
             </td>
             <td nowrap>
               <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.ready || item.uploading || item.success">
-                <span class="glyphicon glyphicon-upload"></span> Upload
+                <fa-icon [icon]="['fas', 'upload']"></fa-icon> Upload
               </button>
               <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.uploading">
-                <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                  <fa-icon [icon]="['fas', 'ban']"></fa-icon> Cancel
               </button>
               <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
-                <span class="glyphicon glyphicon-trash"></span> Remove
+                <fa-icon [icon]="['fas', 'trash']"></fa-icon> Remove
               </button>
             </td>
           </tr>
@@ -81,13 +81,13 @@
           </div>
         </div>
         <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.notUploadedItems.length">
-          <span class="glyphicon glyphicon-upload"></span> Upload all
+          <fa-icon [icon]="['fas', 'upload']"></fa-icon> Upload all
         </button>
         <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()" [disabled]="!uploader.uploading">
-          <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+          <fa-icon [icon]="['fas', 'ban']"></fa-icon> Cancel all
         </button>
         <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
-          <span class="glyphicon glyphicon-trash"></span> Remove all
+          <fa-icon [icon]="['fas', 'trash']"></fa-icon> Remove all
         </button>
       </div>
 
