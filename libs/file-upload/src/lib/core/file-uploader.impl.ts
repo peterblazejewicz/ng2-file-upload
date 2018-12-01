@@ -1,13 +1,12 @@
 import { EventEmitter } from '@angular/core';
 
 import { FileUploadItem } from '../file-upload-item';
-import { FileWrapper } from '../file-wrapper';
 import { FileUploaderOptions } from '../file-uploader-options';
-import { FilterFunction } from '../model/filter-function';
-import { ParsedResponseHeaders } from '../model/parsed-response-headers';
+import { FileWrapper } from '../file-wrapper';
 import { FileTypeUtils } from '../utils/file-type';
-import { CreateFileWrapper } from './file-wrapper.impl';
 import { FileUploadItemImpl } from './file-upload-item.impl';
+import { CreateFileWrapper } from './file-wrapper.impl';
+import { FilterFunction, ParsedResponseHeaders } from './interfaces';
 
 function isFile(value: any): boolean {
   return File && value instanceof File;

@@ -1,7 +1,6 @@
 import { FileWrapper } from '../file-wrapper';
 import { isElement } from '../utils/is-element';
-
-type MutableRequired<T> = { -readonly [P in keyof T]: T[P] };
+import { MutableRequired } from './interfaces';
 
 class FileWrapperImpl extends FileWrapper {}
 export function CreateFileWrapper(fileOrInput: any) {

@@ -1,9 +1,9 @@
 import { FileUploadItem } from '../file-upload-item';
-import { FileWrapper } from '../file-wrapper';
-import { FileUploaderImpl } from '../implementation/file-uploader.impl';
-import { CreateFileWrapper } from '../implementation/file-wrapper.impl';
 import { FileUploaderOptions } from '../file-uploader-options';
-import { ParsedResponseHeaders } from '../model/parsed-response-headers';
+import { FileWrapper } from '../file-wrapper';
+import { FileUploaderImpl } from './file-uploader.impl';
+import { CreateFileWrapper } from './file-wrapper.impl';
+import { ParsedResponseHeaders } from './interfaces';
 
 export class FileUploadItemImpl implements FileUploadItem {
   alias: string;

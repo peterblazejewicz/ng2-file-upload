@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import * as doc from 'html-loader!markdown-loader!../../../src/docs/doc.md';
-import { request } from 'https';
 
 const tabDesc: {[key: string]: string}[] = [
   {

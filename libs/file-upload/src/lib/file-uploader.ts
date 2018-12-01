@@ -1,9 +1,9 @@
 import { EventEmitter } from '@angular/core';
 
 import { FileUploadItem } from './file-upload-item';
-import { FileUploaderImpl } from './implementation/file-uploader.impl';
 import { FileUploaderOptions } from './file-uploader-options';
-import { FilterFunction } from './model/filter-function';
+import { FileUploaderImpl } from './core/file-uploader.impl';
+import { FilterFunction } from './core/interfaces';
 
 export class FileUploader {
   private uploader: FileUploaderImpl;

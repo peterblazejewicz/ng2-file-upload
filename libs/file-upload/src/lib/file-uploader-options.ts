@@ -1,5 +1,4 @@
-import { FileHeaders } from './model/file-headers';
-import { FilterFunction } from './model/filter-function';
+import { FileHeaders, FilterFunction } from './core/interfaces';
 
 export interface FileUploaderOptions {
   allowedMimeType?: string[];

@@ -1,5 +1,5 @@
 import { FileWrapper } from './file-wrapper';
-import { ParsedResponseHeaders } from './model/parsed-response-headers';
+import { ParsedResponseHeaders } from './core/interfaces';
 
 export interface FileUploadItem {
   url: string;
